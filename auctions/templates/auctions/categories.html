@@ -1,0 +1,23 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<div class="container mt-5">
+    <h2 class="mb-4">Categories</h2>
+
+    {% if categories %}
+        <div class="row g-4">
+            {% for category in categories %}
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body d-flex align-items-center justify-content-center">
+                            <a href="{% url 'category_listing' category.id %}" class="card-title h5 mb-0">{{ category.name }}</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">No categories available.</div>
+    {% endif %}
+</div>
+{% endblock %}

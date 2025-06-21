@@ -1,7 +1,46 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2>Active Listings</h2>
 
-    TODO
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Active Listings</h2>
+    </div>
+
+    {% if listings %}
+        <div class="row g-4">
+            {% for listing in listings %}
+                {% if listing.status == 'active' %}
+                <div class="col-12">
+                    <div class="card flex-row align-items-center h-100">
+                        {% if listing.image %}
+                            <img src="{{ listing.image.url }}" class="card-img-left" alt="{{ listing.title }}" style="width: 200px; height: 150px; object-fit: cover; border-top-left-radius: .25rem; border-bottom-left-radius: .25rem;">
+                        {% endif %}
+                        <div class="card-body">
+                            <a href="{% url 'listing' listing.id %}" class="card-title">{{ listing.title }}</a>
+                            <p class="card-text">{{ listing.description }}</p>
+                        </div>
+                        <div class="card-footer bg-transparent border-0">
+                            <span class="fw-bold">${{ listing.price }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">No active listings available.</div>
+    {% endif %}
+
+    <div class="mt-4">
+        {% if user.is_authenticated %}
+            <div class="alert alert-success">Welcome, {{ user.username }}!</div>
+        {% else %}
+            <div class="alert alert-warning">
+                Please <a href="{% url 'login' %}" class="alert-link">log in</a> or <a href="{% url 'register' %}" class="alert-link">register</a>.
+            </div>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}
+
